@@ -3,7 +3,6 @@ import random
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-
 # Function to simulate the data stream with regular patterns and anomalies
 def data_stream_simulation(stream_length=1000):
     data = []
