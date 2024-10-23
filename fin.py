@@ -1,4 +1,5 @@
 import random
+#libraries for animation
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
@@ -15,7 +16,7 @@ def data_stream_simulation(stream_length=1000):
         value = seasonal_value + noise
         data.append(value)
 
-    # Injecting anomalies for testing
+    # Injecting anomalies for testing ( Detected Successfully)
     data[200] = 20  # Positive anomaly
     data[600] = -20  # Negative anomaly
     return data
@@ -44,9 +45,11 @@ def anomaly_detection(data_stream, window_size=50):
         std_dev = calculate_std_dev(window, mean)
         value = data_stream[i]
 
-        # Detect anomalies if value is greater than 3 times standard deviation
-        if abs(value - mean) > 3 * std_dev:
-            anomalies.append(i)  # Store the index of the anomaly
+        # Detect anomalies if value is greater than alpha times standard deviation. alpha is initially set to 3.
+        # Can adjust the values of alpha for robustness
+        alpha = 3
+        if abs(value - mean) > alpha * std_dev:
+            anomalies.append(i)  # Storing the index of the anomaly
 
     return anomalies
 
@@ -63,7 +66,7 @@ def write_output_with_anomalies(data_stream, anomalies, filename="output_data.tx
     with open(filename, "w") as file:
         for index, value in enumerate(data_stream):
             if index in anomalies:
-                file.write(f"{index}, {value:.4f} *\n")  # Mark anomaly with '*'
+                file.write(f"{index}, {value:.4f} *\n")  # Marking anomaly with '*'
             else:
                 file.write(f"{index}, {value:.4f}\n")
 
@@ -75,7 +78,7 @@ def write_anomalies_to_file(anomalies, filename="anomalies.txt"):
             file.write(f"Anomaly detected at index: {anomaly}\n")
 
 
-# Animation function to visualize the data stream and anomalies
+#Animation Function
 def animate(i):
     ax.clear()
     ax.plot(data_stream[:i], label='Data Stream')
